@@ -1,131 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" href="" type="image/x-icon">
-  <style>
-    body {
-      background-color: black;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      color: white;
-    }
-
-    {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "url": "https://railway.app",
-            "logo": "https://files.catbox.moe/39z8jd.jpg"
-    }
-
-    .button-container {
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h3 {
-      margin-top: -40px;
-      opacity: 0;
-      animation: fadeIn 3s forwards;
-    }
-
-    .button {
-      width: 140px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 0px 15px;
-      background-color: red;
-      border-radius: 10px;
-      border: none;
-      color: white;
-      position: relative;
-      cursor: pointer;
-      font-weight: 900;
-      transition-duration: .2s;
-      background: linear-gradient(0deg, #000, #272727);
-      text-decoration: none;
-    }
-
-  
-    footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #222; /* Darker gray footer background */
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 14px;
-    
-  }
-    .button:before, .button:after {
-      content: '';
-      position: absolute;
-      left: -2px;
-      top: -2px;
-      border-radius: 10px;
-      background: linear-gradient(45deg, #48ff00, #15ff00, #000000,#000000, #ff0000);
-      background-size: 400%;
-      width: calc(100% + 4px);
-      height: calc(100% + 4px);
-      z-index: -1;
-      animation: steam 10s linear infinite;
-    }
-
-    @keyframes steam {
-      0% {
-        background-position: 0 0;
-      }
-
-      50% {
-        background-position: 400% 0;
-      }
-
-      100% {
-        background-position: 0 0;
-      }
-    }
-
-    .button:after {
-      filter: blur(50px);
-    }
-
-    .button span {
-      z-index: 1;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp Session Generator</title>
+<style>
+body { font-family: Arial; max-width:600px; margin:0 auto; padding:20px; text-align:center;}
+.tab-container{margin-bottom:20px;}
+.tab-button{padding:10px 20px;background:#f0f0f0;border:none;cursor:pointer;}
+.tab-button.active{background:#25D366;color:white;}
+.tab-content{display:none;padding:20px;border:1px solid #ddd;border-radius:5px;}
+.tab-content.active{display:block;}
+input, button{padding:10px;margin:10px 0;width:100%;box-sizing:border-box;}
+button{background:#25D366;color:white;border:none;cursor:pointer;}
+#qrCode{margin:20px auto;max-width:300px;}
+.result{margin-top:20px;padding:10px;background:#f8f8f8;border-radius:5px;}
+</style>
 </head>
 <body>
-  <div class="button-container">
-    <h3> KANGO-XMD SESSION 3</h3>
-    <div></div>
-    <a href="/qr" class="button" target="_blank"> <span>QR-CODE</span> </a> <br>
-    <a href="/pair" class="button" target="_blank"> <span>PAIRING-CODE</span> </a> <br>
-    <a href="https://github.com/OfficialKango/KANGO-XMD/fork" class="button" target="_blank"> <span>FORK KANGO-XMD</span> </a> <br> </a>
-    <a href="https://whatsapp.com/channel/0029Va8YUl50bIdtVMYnYd0E" class="button" target="_blank"> <span>WhatsApp</span> </a> <br>
+<h1>WhatsApp Session Generator</h1>
 
-    <p>FACE ANY ISSUES CLICK ERROR BUTTON</p>
+<div class="tab-container">
+<button class="tab-button active" onclick="openTab('qrTab')">QR Code</button>
+<button class="tab-button" onclick="openTab('pairTab')">Pairing Code</button>
+</div>
 
-    <a href="https://wa.me/233509977126" class="button" target="_blank"> <span>ERROR</span> </a> <br>
+<div id="qrTab" class="tab-content active">
+<h2>Generate Session via QR Code</h2>
+<button id="generateQr">Generate QR Code</button>
+<div id="qrCode"></div>
+<div id="qrResult" class="result"></div>
+</div>
 
-    <footer>
-     KANGO-XMD &copy; <span id="currentYear"></span>
-    </footer>
-  
+<div id="pairTab" class="tab-content">
+<h2>Generate Session via Pairing Code</h2>
+<input type="text" id="phoneNumber" placeholder="Enter phone number with country code">
+<button id="generatePair">Get Pairing Code</button>
+<div id="pairResult" class="result"></div>
+</div>
+
+<script>
+function openTab(tabName) {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+document.getElementById('generateQr').addEventListener('click', async () => {
+    const qrResult = document.getElementById('qrResult');
+    qrResult.innerHTML = 'Generating QR code...';
+    try {
+        const res = await fetch('/api/qr', { method:'POST', headers:{'Content-Type':'application/json'} });
+        const data = await res.json();
+        if(data.success){
+            document.getElementById('qrCode').innerHTML = `<img src="${data.qr}" alt="QR Code">`;
+            qrResult.innerHTML = 'Scan the QR code with WhatsApp.';
+        } else qrResult.innerHTML = `Error: ${data.error}`;
+    } catch(e){ qrResult.innerHTML = `Error: ${e.message}`; }
+});
+
+document.getElementById('generatePair').addEventListener('click', async () => {
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const pairResult = document.getElementById('pairResult');
+    pairResult.innerHTML = 'Requesting pairing code...';
+    if(!phoneNumber){ pairResult.innerHTML='Enter phone number'; return; }
+    try{
+        const res = await fetch('/api/pair', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({phoneNumber}) });
+        const data = await res.json();
+        if(data.success){ pairResult.innerHTML = `Your pairing code: <strong>${data.pairingCode}</strong>`;}
+        else pairResult.innerHTML = `Error: ${data.error}`;
+    } catch(e){ pairResult.innerHTML = `Error: ${e.message}`;}
+});
+</script>
 </body>
 </html>
