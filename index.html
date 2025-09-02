@@ -208,7 +208,33 @@
     <div class="loading-text">Loading, Please Wait...</div>
   </div>
 
-  <div class="background-waves"></div> <!-- 🔥 Animated Background -->
+  <div class="background-waves"></div>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.background-waves {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(135deg, #25D366 30%, #128C7E 70%);
+    opacity: 0.3;
+    z-index: -1;
+    animation: waveMove 20s linear infinite;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0) translateY(0) rotate(0deg); }
+    50% { transform: translateX(-25%) translateY(10px) rotate(1deg); }
+    100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+}
+</style>
 
   <header>
     <h1>NOVA-X WhatsApp Bot 🌟</h1>
