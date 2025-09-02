@@ -219,10 +219,9 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #128C7E; /* base background color */
+    background: #128C7E;
 }
 
-/* container for waves */
 .background-waves {
     position: fixed;
     width: 100%;
@@ -230,10 +229,9 @@ body {
     top: 0;
     left: 0;
     overflow: hidden;
-    z-index: -1; /* ensures content stays above waves */
+    z-index: -1;
 }
 
-/* common wave style */
 .wave {
     position: absolute;
     width: 200%;
@@ -242,32 +240,30 @@ body {
     left: 0;
     background-repeat: repeat-x;
     opacity: 0.4;
-    animation: moveWave 30s linear infinite;
+    animation: moveWave 60s linear infinite; /* Slower animation */
 }
 
-/* different layers for depth effect */
 .wave1 {
     background: rgba(37, 211, 102, 0.3);
-    animation-duration: 25s;
+    animation-duration: 50s;
     bottom: 0;
     z-index: 1;
 }
 
 .wave2 {
     background: rgba(37, 211, 102, 0.2);
-    animation-duration: 35s;
+    animation-duration: 70s;
     bottom: 10px;
     z-index: 2;
 }
 
 .wave3 {
     background: rgba(37, 211, 102, 0.15);
-    animation-duration: 45s;
+    animation-duration: 90s;
     bottom: 20px;
     z-index: 3;
 }
 
-/* keyframes for horizontal wave movement */
 @keyframes moveWave {
     0% {
         transform: translateX(0) translateY(0) rotate(0deg);
