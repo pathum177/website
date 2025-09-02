@@ -219,7 +219,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #128C7E;
+    background: #0a0000; /* dark black background */
 }
 
 .background-waves {
@@ -240,25 +240,25 @@ body {
     left: 0;
     background-repeat: repeat-x;
     opacity: 0.4;
-    animation: moveWave 60s linear infinite; /* Slower animation */
+    animation: moveWave 60s linear infinite;
 }
 
 .wave1 {
-    background: rgba(37, 211, 102, 0.3);
+    background: rgba(139,0,0,0.3); /* dark red */
     animation-duration: 50s;
     bottom: 0;
     z-index: 1;
 }
 
 .wave2 {
-    background: rgba(37, 211, 102, 0.2);
+    background: rgba(178,34,34,0.25); /* firebrick dark red */
     animation-duration: 70s;
     bottom: 10px;
     z-index: 2;
 }
 
 .wave3 {
-    background: rgba(37, 211, 102, 0.15);
+    background: rgba(255,0,0,0.15); /* bright red */
     animation-duration: 90s;
     bottom: 20px;
     z-index: 3;
@@ -269,7 +269,7 @@ body {
         transform: translateX(0) translateY(0) rotate(0deg);
     }
     50% {
-        transform: translateX(-25%) translateY(10px) rotate(1deg);
+        transform: translateX(-25%) translateY(15px) rotate(2deg);
     }
     100% {
         transform: translateX(-50%) translateY(0) rotate(0deg);
